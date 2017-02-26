@@ -18,7 +18,9 @@
         <activity android:name=".CircularActivity" />
         <activity android:name=".ResourcesActivity" />
         <activity android:name=".ResultActivity" />
-        <activity android:name=".SyllabusActivity"></activity>
+        <activity
+            android:name=".SyllabusActivity"
+            android:theme="@style/SyllabusActivityTheme"></activity>
     </application>
 
 </manifest>
