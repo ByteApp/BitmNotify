@@ -15,12 +15,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CircularActivity" />
-        <activity android:name=".ResourcesActivity" />
-        <activity android:name=".ResultActivity" />
+
+        <activity
+            android:name=".CircularActivity"
+            android:theme="@style/CircularActivityTheme"/>
+
+        <activity
+            android:name=".ResourcesActivity"
+            android:theme="@style/ResourcesActivityTheme"/>
+
+        <activity
+            android:name=".ResultActivity"
+            android:theme="@style/ResultActivityTheme"/>
+
         <activity
             android:name=".SyllabusActivity"
-            android:theme="@style/SyllabusActivityTheme"></activity>
+            android:theme="@style/SyllabusActivityTheme" />
+
     </application>
 
 </manifest>

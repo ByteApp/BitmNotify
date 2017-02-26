@@ -20,7 +20,9 @@
 
         <item name="colorPrimary">#673ab7</item>
         <item name="colorPrimaryDark">#512da8</item>
-        <item name="colorAccent">#7c4dff</item>"
+        <item name="colorAccent">#7c4dff</item>
+
+    </style>
 
     <style name="CircularActivityTheme" parent="AppTheme" >
 
