@@ -8,28 +8,37 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".CircularActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/CircularActivityTheme" />
+
         <activity
             android:name=".ResourcesActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/ResourcesActivityTheme" />
+
         <activity
             android:name=".ResultActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/ResultActivityTheme" />
+
         <activity
             android:name=".SyllabusActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/SyllabusActivityTheme" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
