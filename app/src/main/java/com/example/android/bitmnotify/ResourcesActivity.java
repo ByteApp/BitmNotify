@@ -43,8 +43,7 @@ public class ResourcesActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         if (id == R.id.nav_home) {
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(i);
+            NavUtils.navigateUpFromSameTask(this);
         } else if (id == R.id.nav_circulars) {
             Intent i = new Intent(getApplicationContext(), CircularActivity.class);
             startActivity(i);
