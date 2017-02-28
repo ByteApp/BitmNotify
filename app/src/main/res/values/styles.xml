@@ -10,8 +10,8 @@
 
     <style name="SyllabusActivityTheme" parent="AppTheme">
 
-        <item name="colorPrimary">@android:color/holo_green_light</item>
-        <item name="colorPrimaryDark">@android:color/holo_green_dark</item>
+        <item name="colorPrimary">#009688</item>
+        <item name="colorPrimaryDark">#00796b</item>
         <item name="colorAccent">#ffffff</item>
 
     </style>
@@ -26,8 +26,8 @@
 
     <style name="CircularActivityTheme" parent="AppTheme">
 
-        <item name="colorPrimary">@android:color/holo_orange_light</item>
-        <item name="colorPrimaryDark">@android:color/holo_orange_dark</item>
+        <item name="colorPrimary">#ff9800</item>
+        <item name="colorPrimaryDark">#f57c00</item>
         <item name="colorAccent">#ffffff</item>
 
     </style>
@@ -35,7 +35,7 @@
     <style name="ResultActivityTheme" parent="AppTheme">
 
         <item name="colorPrimary">@android:color/holo_purple</item>
-        <item name="colorPrimaryDark">@android:color/holo_purple </item>
+        <item name="colorPrimaryDark">#7b1fa2 </item>
         <item name="colorAccent">#ffffff</item>
 
     </style>
