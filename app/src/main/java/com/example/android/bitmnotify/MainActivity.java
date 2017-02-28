@@ -72,10 +72,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         if (id == R.id.nav_home) {
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(i);
+            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_circulars) {
             Intent i = new Intent(getApplicationContext(), CircularActivity.class);
             startActivity(i);
@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

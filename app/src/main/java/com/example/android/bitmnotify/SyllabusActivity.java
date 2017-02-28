@@ -39,6 +39,7 @@ public class SyllabusActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         if (id == R.id.nav_home) {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -47,8 +48,7 @@ public class SyllabusActivity extends AppCompatActivity
             Intent i = new Intent(getApplicationContext(), CircularActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_syllabus) {
-            Intent i = new Intent(getApplicationContext(), SyllabusActivity.class);
-            startActivity(i);
+            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_resources) {
             Intent i = new Intent(getApplicationContext(), ResourcesActivity.class);
             startActivity(i);
@@ -61,7 +61,6 @@ public class SyllabusActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -72,7 +71,7 @@ public class SyllabusActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            NavUtils.navigateUpFromSameTask(this);
         }
     }
 }

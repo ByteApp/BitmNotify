@@ -3,6 +3,7 @@ package com.example.android.bitmnotify;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -42,13 +43,13 @@ public class CircularActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         if (id == R.id.nav_home) {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_circulars) {
-            Intent i = new Intent(getApplicationContext(), CircularActivity.class);
-            startActivity(i);
+            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_syllabus) {
             Intent i = new Intent(getApplicationContext(), SyllabusActivity.class);
             startActivity(i);
@@ -64,7 +65,6 @@ public class CircularActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -75,7 +75,7 @@ public class CircularActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            NavUtils.navigateUpFromSameTask(this);
         }
     }
 }

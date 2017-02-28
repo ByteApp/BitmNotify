@@ -3,6 +3,7 @@ package com.example.android.bitmnotify;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -38,6 +39,7 @@ public class ResultActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         if (id == R.id.nav_home) {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -52,15 +54,13 @@ public class ResultActivity extends AppCompatActivity
             Intent i = new Intent(getApplicationContext(), ResourcesActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_results) {
-            Intent i = new Intent(getApplicationContext(), ResultActivity.class);
-            startActivity(i);
+            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_feedback) {
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -71,7 +71,7 @@ public class ResultActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            NavUtils.navigateUpFromSameTask(this);
         }
     }
 }
