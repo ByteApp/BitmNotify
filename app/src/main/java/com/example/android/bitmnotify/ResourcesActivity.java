@@ -33,6 +33,7 @@ public class ResourcesActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
