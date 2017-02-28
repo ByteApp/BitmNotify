@@ -3,39 +3,39 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@android:color/holo_red_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_red_dark</item>
+        <item name="colorAccent">#ffffff</item>
     </style>
 
     <style name="SyllabusActivityTheme" parent="AppTheme">
 
-        <item name="colorPrimary">#8BC34A</item>
-        <item name="colorPrimaryDark">#689F38</item>
-        <item name="colorAccent">#76FF03</item>
+        <item name="colorPrimary">@android:color/holo_green_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_green_dark</item>
+        <item name="colorAccent">#ffffff</item>
 
     </style>
 
     <style name="ResourcesActivityTheme" parent="AppTheme">
 
-        <item name="colorPrimary">#673ab7</item>
-        <item name="colorPrimaryDark">#512da8</item>
-        <item name="colorAccent">#7c4dff</item>
+        <item name="colorPrimary">@android:color/holo_blue_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_blue_dark</item>
+        <item name="colorAccent">#ffffff</item>
 
     </style>
 
     <style name="CircularActivityTheme" parent="AppTheme">
 
-        <item name="colorPrimary">#3f51b5</item>
-        <item name="colorPrimaryDark">#303f9f</item>
-        <item name="colorAccent">#536dfe</item>
+        <item name="colorPrimary">@android:color/holo_orange_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_orange_dark</item>
+        <item name="colorAccent">#ffffff</item>
 
     </style>
 
     <style name="ResultActivityTheme" parent="AppTheme">
 
-        <item name="colorPrimary">#607d8b</item>
-        <item name="colorPrimaryDark">#455a64</item>
+        <item name="colorPrimary">@android:color/holo_purple</item>
+        <item name="colorPrimaryDark">@android:color/holo_purple </item>
         <item name="colorAccent">#ffffff</item>
 
     </style>
