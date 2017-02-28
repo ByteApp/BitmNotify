@@ -20,6 +20,7 @@ public class SyllabusActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_syllabus);
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Syllabus");
         setSupportActionBar(toolbar);
