@@ -4,7 +4,6 @@
     <group
         android:checkableBehavior="single" >
         <item
-            android:checked="true"
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
             android:title="Home" />
@@ -21,6 +20,7 @@
             android:icon="@drawable/ic_resources"
             android:title="Resources" />
         <item
+            android:checked="true"
             android:id="@+id/nav_results"
             android:icon="@drawable/ic_results"
             android:title="Results" />
