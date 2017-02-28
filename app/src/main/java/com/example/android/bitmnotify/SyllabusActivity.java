@@ -21,6 +21,7 @@ public class SyllabusActivity extends AppCompatActivity
         setContentView(R.layout.activity_syllabus);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Syllabus");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

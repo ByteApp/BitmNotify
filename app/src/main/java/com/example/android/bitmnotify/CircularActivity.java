@@ -22,6 +22,7 @@ public class CircularActivity extends AppCompatActivity
         setContentView(R.layout.activity_circular);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Circulars");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

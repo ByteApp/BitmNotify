@@ -20,6 +20,7 @@ public class ResourcesActivity extends AppCompatActivity
         setContentView(R.layout.activity_resources);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Resources");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

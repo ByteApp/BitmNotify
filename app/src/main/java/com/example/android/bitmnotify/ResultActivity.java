@@ -20,6 +20,7 @@ public class ResultActivity extends AppCompatActivity
         setContentView(R.layout.activity_result);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Results");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
