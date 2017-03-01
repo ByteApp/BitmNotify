@@ -4,6 +4,7 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/side_nav_bar"
     android:orientation="vertical"
     tools:context="com.example.android.bitmnotify.LoginActivity">
 
@@ -46,7 +47,19 @@
         android:layout_height="wrap_content"
         android:text="LOGIN"
         android:textSize="18dp"
+        android:textColor="@android:color/holo_orange_dark"
+        android:background="#ffffff"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Don't have an account?"
+        android:textColor="#2196f3"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_gravity="center"/>
 
 </LinearLayout>
