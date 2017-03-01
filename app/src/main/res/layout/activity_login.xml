@@ -8,10 +8,17 @@
     android:orientation="vertical"
     tools:context="com.example.android.bitmnotify.LoginActivity">
 
+    <ImageView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="75dp"
+        android:src="@mipmap/ic_launcher"/>
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="52dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp">
@@ -45,6 +52,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="LOGIN"
         android:textSize="18dp"
         android:textColor="@android:color/holo_orange_dark"
