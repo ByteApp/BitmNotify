@@ -29,5 +29,6 @@ dependencies {
     compile 'com.parse:parse-android:1.13.1'
     compile 'com.parse.bolts:bolts-applinks:1.4.0'
     compile 'com.parse.bolts:bolts-tasks:1.4.0'
+    compile 'com.android.support.constraint:constraint-layout:+'
     testCompile 'junit:junit:4.12'
 }
