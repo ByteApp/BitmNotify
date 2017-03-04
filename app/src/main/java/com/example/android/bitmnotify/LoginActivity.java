@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this)
                                 .setTitle("Login Failed!")
-                                .setMessage("Invalid Email or Password.")
+                                .setMessage(e.getMessage())
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
