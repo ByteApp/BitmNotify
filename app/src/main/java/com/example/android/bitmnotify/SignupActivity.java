@@ -1,7 +1,10 @@
 package com.example.android.bitmnotify;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +34,8 @@ public class SignupActivity extends AppCompatActivity {
 
     Button btnSignUp;
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,30 +57,63 @@ public class SignupActivity extends AppCompatActivity {
 
         btnSignUp = (Button) findViewById(R.id.button_sign_up);
 
+        progressDialog = new ProgressDialog(SignupActivity.this);
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUser user = new ParseUser();
-                user.setUsername(etEmail.getText().toString());
-                user.setEmail(etEmail.getText().toString());
-                user.setPassword(etPassword.getText().toString());
-                user.signUpInBackground(new SignUpCallback() {
+
+                progressDialog.setMessage("Please Wait...");
+                progressDialog.setTitle("Creating New Account");
+                progressDialog.show();
+                new Thread(new Runnable() {
                     @Override
-                    public void done(ParseException e) {
-                        if(e == null) {
-
-                            Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-
-                        }
-                        else {
-
-                            Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                    public void run() {
+                        try{
+                            parseSignUp();
+                        }catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
-                });
+                }).start();
+
+            }
+        });
+
+    }
+
+    void parseSignUp(){
+
+        ParseUser user = new ParseUser();
+        user.setUsername(etEmail.getText().toString());
+        user.setEmail(etEmail.getText().toString());
+        user.setPassword(etPassword.getText().toString());
+        user.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null) {
+
+                    progressDialog.dismiss();
+                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+
+                }
+                else {
+                    progressDialog.dismiss();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this)
+                            .setTitle("SignUp Failed")
+                            .setMessage(e.getMessage())
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                    AlertDialog ad = builder.create();
+                    ad.show();
+                }
             }
         });
 

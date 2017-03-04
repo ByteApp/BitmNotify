@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
-            android:inputType="textEmailAddress"
+            android:inputType="textAutoComplete"
             android:hint="Email"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:hint="Password"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:hint="Confirm Password"/>
     </android.support.design.widget.TextInputLayout>
 

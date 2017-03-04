@@ -39,9 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         _email = email.getText().toString();
         _password = password.getText().toString();
 
-        if(password.getText().length()< 4)
-            password.setError("Atleast 6 chars.");
-
         progressDialog = new ProgressDialog(LoginActivity.this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
