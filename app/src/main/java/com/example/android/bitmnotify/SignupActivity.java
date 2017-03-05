@@ -32,6 +32,10 @@ public class SignupActivity extends AppCompatActivity {
     EditText etPassword;
     EditText etConfirmPassword;
 
+    String username;
+    String email;
+    String password;
+
     Button btnSignUp;
 
     ProgressDialog progressDialog;
@@ -63,6 +67,9 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                email = etEmail.getText().toString();
+                username = before(email, "@");
+                password = etPassword.getText().toString();
                 progressDialog.setMessage("Please Wait...");
                 progressDialog.setTitle("Creating New Account");
                 progressDialog.show();
@@ -85,9 +92,9 @@ public class SignupActivity extends AppCompatActivity {
     void parseSignUp(){
 
         ParseUser user = new ParseUser();
-        user.setUsername(etEmail.getText().toString());
-        user.setEmail(etEmail.getText().toString());
-        user.setPassword(etPassword.getText().toString());
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(password);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
@@ -117,5 +124,16 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    String before(String value, String a) {
+
+        int posA = value.indexOf(a);
+        if (posA == -1) {
+
+            return null;
+        }
+
+        return value.substring(0, posA);
     }
 }

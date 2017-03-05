@@ -21,9 +21,13 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton;
     EditText email;
     EditText password;
+
     String _email;
     String _password;
+    String _username;
+
     ProgressDialog progressDialog;
+
     TextView signUp;
 
     @Override
@@ -36,14 +40,17 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.input_password);
         signUp = (TextView) findViewById(R.id.signup_text_view);
 
-        _email = email.getText().toString();
-        _password = password.getText().toString();
 
         progressDialog = new ProgressDialog(LoginActivity.this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                _email = email.getText().toString();
+                _password = password.getText().toString();
+                _username = before(_email, "@");
 
                 progressDialog.setMessage("Please Wait...");
                 progressDialog.setTitle("Logging In");
@@ -68,11 +75,12 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     void parseLogin() {
 
-        ParseUser.logInInBackground(_email, _password, new LogInCallback() {
+        ParseUser.logInInBackground(_username, _password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if(user != null) {
@@ -101,5 +109,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    String before(String value, String a) {
+
+        int posA = value.indexOf(a);
+        if (posA == -1) {
+
+            return null;
+        }
+
+        return value.substring(0, posA);
     }
 }
