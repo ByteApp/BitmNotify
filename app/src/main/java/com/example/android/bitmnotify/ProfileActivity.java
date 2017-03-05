@@ -1,7 +1,9 @@
 package com.example.android.bitmnotify;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -50,7 +52,17 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                         else {
                             progressDialog.dismiss();
-                            Toast.makeText(ProfileActivity.this, "Logout Failed", Toast.LENGTH_SHORT).show();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this)
+                                    .setTitle("Logout Failed!")
+                                    .setMessage(e.getMessage())
+                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    });
+                            AlertDialog ad = builder.create();
+                            ad.show();
                         }
                     }
                 });

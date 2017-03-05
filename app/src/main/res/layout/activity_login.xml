@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/side_nav_bar"
+    android:background="@android:color/holo_red_light"
     android:orientation="vertical"
     tools:context="com.example.android.bitmnotify.LoginActivity">
 
@@ -12,21 +13,24 @@
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="60dp"
         android:src="@mipmap/ic_launcher"/>
 
     <android.support.design.widget.TextInputLayout
+        android:theme="@style/textInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="36dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp">
         <EditText
+            android:textColor="#ffffff"
+            android:textSize="22sp"
             android:id="@+id/input_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="8dp"
+            android:paddingLeft="16dp"
             android:inputType="textEmailAddress"
             android:hint="Email"/>
 
@@ -34,17 +38,20 @@
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
+        android:theme="@style/textInputLayout"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp">
         <EditText
+            android:textColor="#ffffff"
+            android:textSize="22sp"
             android:id="@+id/input_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:paddingLeft="8dp"
+            android:paddingLeft="16dp"
             android:hint="@string/login_password"/>
 
     </android.support.design.widget.TextInputLayout>
@@ -53,24 +60,23 @@
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="56dp"
         android:text="Login"
-        android:textSize="18dp"
-        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="24sp"
+        android:textColor="@android:color/holo_red_dark"
         android:background="#ffffff"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"/>
 
 
     <TextView
+        android:textSize="16sp"
         android:id="@+id/signup_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't have an account?"
-        android:textColor="#2196f3"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:text="Don't have an account ? Signup Now"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="36dp"
         android:layout_gravity="center"/>
 
 </LinearLayout>
