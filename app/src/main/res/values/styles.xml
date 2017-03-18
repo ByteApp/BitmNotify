@@ -43,7 +43,7 @@
 
     <style name="LoginActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
-        <item name="colorPrimary">@android:color/holo_red_dark</item>
+        <item name="colorPrimary">@android:color/holo_red_light</item>
         <item name="colorPrimaryDark">@android:color/holo_red_light</item>
         <item name="colorAccent">@android:color/holo_red_light</item>
 
@@ -51,17 +51,17 @@
 
     <style name="SignupActivityTheme" parent="AppTheme">
 
-        <item name="colorPrimary">#7b1fa2</item>
-        <item name="colorPrimaryDark">#6a1b9a </item>
-        <item name="colorAccent">#ffffff</item>
+        <item name="colorPrimary">@android:color/holo_red_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_red_light</item>
+        <item name="colorAccent">@android:color/holo_red_light</item>
 
     </style>
 
     <style name="ProfileActivityTheme" parent="AppTheme">
 
-        <item name="colorPrimary">#7b1fa2</item>
-        <item name="colorPrimaryDark">#6a1b9a </item>
-        <item name="colorAccent">#ffffff</item>
+        <item name="colorPrimary">@android:color/holo_red_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_red_light</item>
+        <item name="colorAccent">@android:color/holo_red_light</item>
 
     </style>
 

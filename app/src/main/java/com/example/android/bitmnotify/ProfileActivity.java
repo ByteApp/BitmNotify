@@ -25,7 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Circulars");
+        toolbar.setTitle("Profile");
         setSupportActionBar(toolbar);
 
         progressDialog = new ProgressDialog(ProfileActivity.this);
@@ -37,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 progressDialog.setMessage("Please Wait...");
-                progressDialog.setTitle("Logging In");
+                progressDialog.setTitle("Logging Out");
                 progressDialog.show();
 
                 ParseUser.logOutInBackground(new LogOutCallback() {

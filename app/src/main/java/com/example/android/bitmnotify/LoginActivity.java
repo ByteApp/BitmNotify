@@ -1,8 +1,11 @@
 package com.example.android.bitmnotify;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,37 +47,57 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(LoginActivity.this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                                           @Override
+                                           public void onClick(View v) {
 
 
-                _email = email.getText().toString();
-                _password = password.getText().toString();
-                _username = before(_email, "@");
+                                               _email = email.getText().toString();
+                                               _password = password.getText().toString();
+                                               _username = before(_email, "@");
 
-                progressDialog.setMessage("Please Wait...");
-                progressDialog.setTitle("Logging In");
-                progressDialog.show();
-                new Thread(new Runnable() {
+                                               ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                                               NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                                               if (networkInfo != null && networkInfo.isConnected()) {
+
+                                                   progressDialog.setMessage("Please Wait...");
+                                                   progressDialog.setTitle("Logging In");
+                                                   progressDialog.show();
+                                                   new Thread(new Runnable() {
+                                                       @Override
+                                                       public void run() {
+                                                           try {
+                                                               parseLogin();
+                                                           } catch (Exception e) {
+                                                               e.printStackTrace();
+                                                           }
+                                                       }
+                                                   }).start();
+                                               } else {
+
+                                                   AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this)
+                                                           .setTitle("Not Connected!")
+                                                           .setMessage("Check your Internet Connection.")
+                                                           .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                               @Override
+                                                               public void onClick(DialogInterface dialog, int which) {
+
+                                                               }
+                                                           });
+                                                   AlertDialog ad1 = builder1.create();
+                                                   ad1.show();
+
+                                               }
+                                           }
+                                       });
+
+
+                signUp.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void run() {
-                        try{
-                            parseLogin();
-                        }catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    public void onClick(View v) {
+                        Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                        startActivity(intent);
                     }
-                }).start();
-            }
-        });
-
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-                startActivity(intent);
-            }
-        });
+                });
 
     }
 
@@ -83,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(_username, _password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                if(user != null) {
+                if (user != null) {
 
                     progressDialog.dismiss();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -91,18 +114,17 @@ public class LoginActivity extends AppCompatActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
 
-                }
-                else {
+                } else {
                     progressDialog.dismiss();
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this)
-                                .setTitle("Login Failed!")
-                                .setMessage(e.getMessage())
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                            .setTitle("Login Failed!")
+                            .setMessage(e.getMessage())
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                                    }
-                                });
+                                }
+                            });
                     AlertDialog ad = builder.create();
                     ad.show();
                 }
