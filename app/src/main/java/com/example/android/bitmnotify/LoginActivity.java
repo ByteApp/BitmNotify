@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.input_password);
         signUp = (TextView) findViewById(R.id.signup_text_view);
 
-
         progressDialog = new ProgressDialog(LoginActivity.this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
