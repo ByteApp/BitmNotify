@@ -67,7 +67,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                email = etEmail.getText().toString();
+                email = etEmail.getText().toString().toLowerCase();
                 username = before(email, "@");
                 password = etPassword.getText().toString();
                 progressDialog.setMessage("Please Wait...");

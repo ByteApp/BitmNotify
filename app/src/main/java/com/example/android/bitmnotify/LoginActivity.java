@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                                            public void onClick(View v) {
 
 
-                                               _email = email.getText().toString();
+                                               _email = email.getText().toString().toLowerCase();
                                                _password = password.getText().toString();
                                                _username = before(_email, "@");
 
@@ -58,19 +58,35 @@ public class LoginActivity extends AppCompatActivity {
                                                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
                                                if (networkInfo != null && networkInfo.isConnected()) {
 
-                                                   progressDialog.setMessage("Please Wait...");
-                                                   progressDialog.setTitle("Logging In");
-                                                   progressDialog.show();
-                                                   new Thread(new Runnable() {
-                                                       @Override
-                                                       public void run() {
-                                                           try {
-                                                               parseLogin();
-                                                           } catch (Exception e) {
-                                                               e.printStackTrace();
+                                                   if(_email.equals("") || _password.equals("")) {
+
+                                                       AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this)
+                                                               .setMessage("Please enter your Email and Password.")
+                                                               .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                                   @Override
+                                                                   public void onClick(DialogInterface dialog, int which) {
+
+                                                                   }
+                                                               });
+                                                       AlertDialog ad1 = builder1.create();
+                                                       ad1.show();
+                                                   }
+                                                   else {
+
+                                                       progressDialog.setMessage("Please Wait...");
+                                                       progressDialog.setTitle("Logging In");
+                                                       progressDialog.show();
+                                                       new Thread(new Runnable() {
+                                                           @Override
+                                                           public void run() {
+                                                               try {
+                                                                   parseLogin();
+                                                               } catch (Exception e) {
+                                                                   e.printStackTrace();
+                                                               }
                                                            }
-                                                       }
-                                                   }).start();
+                                                       }).start();
+                                                   }
                                                } else {
 
                                                    AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this)
@@ -105,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(_username, _password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                if (user != null) {
+                if (user != null && e == null) {
 
                     progressDialog.dismiss();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
