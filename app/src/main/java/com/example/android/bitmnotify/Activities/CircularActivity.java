@@ -1,7 +1,6 @@
-package com.example.android.bitmnotify;
+package com.example.android.bitmnotify.Activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
@@ -12,18 +11,21 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-public class SyllabusActivity extends AppCompatActivity
+import com.example.android.bitmnotify.R;
+
+public class CircularActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_syllabus);
+        setContentView(R.layout.activity_circular);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Syllabus");
+        toolbar.setTitle("Circulars");
         setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -45,10 +47,10 @@ public class SyllabusActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             NavUtils.navigateUpFromSameTask(this);
         } else if (id == R.id.nav_circulars) {
-            Intent i = new Intent(getApplicationContext(), CircularActivity.class);
-            startActivity(i);
-        } else if (id == R.id.nav_syllabus) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (id == R.id.nav_syllabus) {
+            Intent i = new Intent(getApplicationContext(), SyllabusActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_resources) {
             Intent i = new Intent(getApplicationContext(), ResourcesActivity.class);
             startActivity(i);

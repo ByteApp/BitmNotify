@@ -1,7 +1,6 @@
-package com.example.android.bitmnotify;
+package com.example.android.bitmnotify.Activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
@@ -10,24 +9,22 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
-import static android.os.Build.VERSION_CODES.N;
+import com.example.android.bitmnotify.R;
 
-public class CircularActivity extends AppCompatActivity
+public class SyllabusActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_circular);
+        setContentView(R.layout.activity_syllabus);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Circulars");
+        toolbar.setTitle("Syllabus");
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -49,10 +46,10 @@ public class CircularActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             NavUtils.navigateUpFromSameTask(this);
         } else if (id == R.id.nav_circulars) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (id == R.id.nav_syllabus) {
-            Intent i = new Intent(getApplicationContext(), SyllabusActivity.class);
+            Intent i = new Intent(getApplicationContext(), CircularActivity.class);
             startActivity(i);
+        } else if (id == R.id.nav_syllabus) {
+            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_resources) {
             Intent i = new Intent(getApplicationContext(), ResourcesActivity.class);
             startActivity(i);

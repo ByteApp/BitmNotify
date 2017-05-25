@@ -1,7 +1,6 @@
-package com.example.android.bitmnotify;
+package com.example.android.bitmnotify.Activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import com.example.android.bitmnotify.R;
 
 public class ResultActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{

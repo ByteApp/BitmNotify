@@ -1,0 +1,266 @@
+package com.example.android.bitmnotify.Activities;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.example.android.bitmnotify.Adapters.FeedAdapter;
+import com.example.android.bitmnotify.ObjectClasses.Feed;
+import com.example.android.bitmnotify.R;
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final int RC_SIGN_IN = 1;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mDatabaseRef;
+    private RecyclerView rv;
+    List<Feed> list = new ArrayList<>();
+    FeedAdapter adapter;
+    ProgressBar progressBar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user != null) {
+                    Toast.makeText(MainActivity.this, "Hii!", Toast.LENGTH_SHORT).show();
+                } else {
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setIsSmartLockEnabled(false)
+                                    .setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build(),
+                                            new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
+                                            new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build()))
+                                    .build(),
+                            RC_SIGN_IN);
+                }
+            }
+        };
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("News Feed");
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        DatabaseReference feedRef = mDatabaseRef.child("feeds");
+        feedRef.limitToLast(30).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Feed feed = dataSnapshot.getValue(Feed.class);
+                list.add(new Feed(feed.getTitle(), feed.getContent(), feed.getImageUrl(), feed.getTimeStamp(), feed.getUserId(), feed.getUsername(), feed.getDpUrl()));
+                adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+                rv.setVisibility(View.VISIBLE);
+                scrollToBottom();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        adapter = new FeedAdapter(list, this);
+        rv = (RecyclerView) findViewById(R.id.rootView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(true);
+        rv.setLayoutManager(layoutManager);
+        rv.setAdapter(adapter);
+
+    }
+
+    void scrollToBottom() {
+        rv.post(new Runnable() {
+            @Override
+            public void run() {
+                rv.smoothScrollToPosition(adapter.getItemCount() - 1);
+            }
+        });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
+                DatabaseReference userRef = mDatabaseRef.child("users");
+                userRef.push().child("userId").setValue(mAuth.getCurrentUser().getUid());
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "SignIn Canceled", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Do you really want to Exit?")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                            System.exit(0);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            //super.onBackPressed();
+        }
+    }
+
+    public void signOut() {
+        AuthUI.getInstance().signOut(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_admin, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch (id) {
+
+            case R.id.action_logout:
+                signOut();
+                return true;
+
+            case R.id.action_app_post:
+                addpost();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        if (id == R.id.nav_home) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (id == R.id.nav_circulars) {
+            Intent i = new Intent(getApplicationContext(), CircularActivity.class);
+            startActivity(i);
+        } else if (id == R.id.nav_syllabus) {
+            Intent i = new Intent(getApplicationContext(), SyllabusActivity.class);
+            startActivity(i);
+        } else if (id == R.id.nav_resources) {
+            Intent i = new Intent(getApplicationContext(), ResourcesActivity.class);
+            startActivity(i);
+        } else if (id == R.id.nav_results) {
+            Intent i = new Intent(getApplicationContext(), ResultActivity.class);
+            startActivity(i);
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_feedback) {
+
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mAuth.removeAuthStateListener(mAuthListener);
+    }
+
+    void addpost() {
+        startActivity(new Intent(MainActivity.this, AddPost.class));
+    }
+}
