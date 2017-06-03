@@ -4,11 +4,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,20 +32,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final int RC_SIGN_IN = 1;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabaseRef;
     private RecyclerView rv;
     List<Feed> list = new ArrayList<>();
     FeedAdapter adapter;
     ProgressBar progressBar;
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,27 +53,18 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
-
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null) {
-                    Toast.makeText(MainActivity.this, "Hii!", Toast.LENGTH_SHORT).show();
-                } else {
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setIsSmartLockEnabled(false)
-                                    .setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build(),
-                                            new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
-                                            new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build()))
-                                    .build(),
-                            RC_SIGN_IN);
+                if(user == null) {
+                    startActivity(new Intent(MainActivity.this, SignInActivity.class));
+                    finish();
                 }
             }
         };
+
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("News Feed");
@@ -131,6 +122,13 @@ public class MainActivity extends AppCompatActivity
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
 
+        rv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Item Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     void scrollToBottom() {
@@ -140,19 +138,6 @@ public class MainActivity extends AppCompatActivity
                 rv.smoothScrollToPosition(adapter.getItemCount() - 1);
             }
         });
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            if (resultCode == RESULT_OK) {
-                DatabaseReference userRef = mDatabaseRef.child("users");
-                userRef.push().child("userId").setValue(mAuth.getCurrentUser().getUid());
-            } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "SignIn Canceled", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }
     }
 
     @Override
@@ -248,19 +233,19 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    void addpost() {
+        startActivity(new Intent(MainActivity.this, AddPost.class));
+    }
+
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         mAuth.removeAuthStateListener(mAuthListener);
-    }
-
-    void addpost() {
-        startActivity(new Intent(MainActivity.this, AddPost.class));
     }
 }
