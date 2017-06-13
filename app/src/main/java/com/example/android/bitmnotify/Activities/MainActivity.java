@@ -17,12 +17,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.android.bitmnotify.Adapters.FeedAdapter;
 import com.example.android.bitmnotify.ObjectClasses.Feed;
 import com.example.android.bitmnotify.R;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -34,10 +39,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FeedAdapter.ListItemClickListener {
 
     private DatabaseReference mDatabaseRef;
     private RecyclerView rv;
@@ -46,6 +52,10 @@ public class MainActivity extends AppCompatActivity
     ProgressBar progressBar;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
+    TextView navUsername;
+    TextView navEmail;
+    CircleImageView navDp;
+    AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +74,11 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
+        MobileAds.initialize(this, "ca-app-pub-9064309060222668~4652247035");
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -78,6 +93,17 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+
+        navUsername = (TextView) header.findViewById(R.id.nav_username);
+        navEmail = (TextView) header.findViewById(R.id.nav_email);
+        navDp = (CircleImageView) header.findViewById(R.id.nav_dp);
+
+        if(mAuth.getCurrentUser() != null) {
+            navUsername.setText(mAuth.getCurrentUser().getDisplayName());
+            navEmail.setText(mAuth.getCurrentUser().getEmail());
+            Glide.with(this).load(mAuth.getCurrentUser().getPhotoUrl()).crossFade().into(navDp);
+        }
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -114,7 +140,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        adapter = new FeedAdapter(list, this);
+        adapter = new FeedAdapter(list, this, this);
         rv = (RecyclerView) findViewById(R.id.rootView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
@@ -169,6 +195,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void signOut() {
+        mDatabaseRef.child("users").child(mAuth.getCurrentUser().getUid()).removeValue();
         AuthUI.getInstance().signOut(this);
     }
 
@@ -247,5 +274,16 @@ public class MainActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
         mAuth.removeAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onListItemClicked(int clikedItemIndex) {
+        Intent intent = new Intent(MainActivity.this, FeedDetail.class);
+        Bundle b = new Bundle();
+        b.putString("title", adapter.feedList.get(clikedItemIndex).getTitle());
+        b.putString("content", adapter.feedList.get(clikedItemIndex).getContent());
+        b.putString("image", adapter.feedList.get(clikedItemIndex).getImageUrl());
+        intent.putExtras(b);
+        startActivity(intent);
     }
 }

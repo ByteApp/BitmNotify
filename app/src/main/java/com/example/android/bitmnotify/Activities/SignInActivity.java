@@ -151,7 +151,7 @@ public class SignInActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            mRef.push().child("uid").setValue(user.getUid());
+                            mRef.child(user.getUid()).child("uid").setValue(user.getUid());
                             startActivity(new Intent(SignInActivity.this, MainActivity.class));
                             finish();
                         } else {

@@ -6,8 +6,8 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -24,14 +24,23 @@ import static android.text.format.DateUtils.getRelativeTimeSpanString;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
+    final private ListItemClickListener mListItemClickListener;
+
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    List<Feed> feedList;
+    public List<Feed> feedList;
     public Context context;
     boolean like = false;
 
-    public FeedAdapter(List<Feed> list, Context context) {
+    public FeedAdapter(List<Feed> list, Context context, ListItemClickListener listener) {
         feedList = list;
         this.context = context;
+        mListItemClickListener = listener;
+    }
+
+    public interface ListItemClickListener {
+
+        void onListItemClicked(int clikedItemIndex);
+
     }
 
     @Override
@@ -41,7 +50,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.textViewTitle.setText(feedList.get(position).getTitle());
         holder.textViewContent.setText(feedList.get(position).getContent());
         String url = feedList.get(position).getImageUrl();
@@ -61,7 +70,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return feedList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView imageView;
         TextView textViewTitle;
@@ -69,6 +78,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         TextView textViewUsername;
         TextView textViewTime;
         CircleImageView imageViewDp;
+        LinearLayout linearLayoutFeed;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -79,6 +89,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             textViewUsername = (TextView) itemView.findViewById(R.id.textView_username);
             textViewTime = (TextView) itemView.findViewById(R.id.textView_time);
             imageViewDp = (CircleImageView) itemView.findViewById(R.id.imageView_dp);
+            linearLayoutFeed = (LinearLayout) itemView.findViewById(R.id.linearLayout_feed);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int clickedPosition = getAdapterPosition();
+            mListItemClickListener.onListItemClicked(clickedPosition);
         }
     }
 }

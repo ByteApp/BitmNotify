@@ -51,11 +51,14 @@
             android:parentActivityName=".Activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.SignInActivity"></activity>
+        <activity android:name=".Activities.SignInActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".Activities.RegisterActivity"></activity>
+        <activity android:name=".Activities.RegisterActivity" />
+        <activity
+            android:name=".Activities.FeedDetail"
+            android:theme="@style/FeedDetailActivityTheme"/>
     </application>
 
 </manifest>

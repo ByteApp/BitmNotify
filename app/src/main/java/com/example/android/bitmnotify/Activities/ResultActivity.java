@@ -19,19 +19,30 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.android.bitmnotify.R;
+import com.google.firebase.auth.FirebaseAuth;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ResultActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     WebView webView;
     ProgressBar progressBar;
+    TextView navUsername;
+    TextView navEmail;
+    CircleImageView navDp;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
+        mAuth = FirebaseAuth.getInstance();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Results");
@@ -45,6 +56,15 @@ public class ResultActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+
+        navUsername = (TextView) header.findViewById(R.id.nav_username);
+        navEmail = (TextView) header.findViewById(R.id.nav_email);
+        navDp = (CircleImageView) header.findViewById(R.id.nav_dp);
+
+        navUsername.setText(mAuth.getCurrentUser().getDisplayName());
+        navEmail.setText(mAuth.getCurrentUser().getEmail());
+        Glide.with(this).load(mAuth.getCurrentUser().getPhotoUrl()).crossFade().into(navDp);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#7b1fa2"), PorterDuff.Mode.MULTIPLY);
