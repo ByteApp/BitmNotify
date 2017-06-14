@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.android.bitmnotify.Activities.ProfileActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/dp_profile"
+            android:layout_width="72dp"
+            android:layout_height="72dp" />
+        
+        <RelativeLayout
+            android:layout_toRightOf="@id/dp_profile"
+            android:layout_width="match_parent"
+            android:layout_height="72dp">
+
+            <TextView
+                android:id="@+id/textView_name_profile"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:gravity="center_vertical"
+                tools:text="Department of ECE"/>
+
+            <TextView
+                android:layout_below="@id/textView_name_profile"
+                android:id="@+id/textView_posts_profile"
+                android:layout_width="wrap_content"
+                tools:text="120 posts"
+                android:layout_height="36dp"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_marginLeft="16dp"
+                android:layout_below="@id/textView_name_profile"
+                android:layout_toRightOf="@id/textView_posts_profile"
+                android:id="@+id/textView_followers_profile"
+                android:layout_width="match_parent"
+                tools:text="205 followers"
+                android:layout_height="36dp"
+                android:gravity="center_vertical"/>
+
+        </RelativeLayout>
+
+        <Button
+            android:layout_marginTop="16dp"
+            android:layout_below="@id/dp_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:text="Follow"
+            android:background="@android:color/holo_green_light"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</LinearLayout>

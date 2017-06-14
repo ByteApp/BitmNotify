@@ -66,6 +66,17 @@ public class ResultActivity extends AppCompatActivity
         navEmail.setText(mAuth.getCurrentUser().getEmail());
         Glide.with(this).load(mAuth.getCurrentUser().getPhotoUrl()).crossFade().into(navDp);
 
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                Intent intent = new Intent(ResultActivity.this, ProfileActivity.class);
+                intent.putExtra("uId", mAuth.getCurrentUser().getUid());
+                drawer.closeDrawer(GravityCompat.START);
+                startActivity(intent);
+            }
+        });
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#7b1fa2"), PorterDuff.Mode.MULTIPLY);
 

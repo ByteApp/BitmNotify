@@ -71,6 +71,17 @@ public class SyllabusActivity extends AppCompatActivity
         navEmail.setText(mAuth.getCurrentUser().getEmail());
         Glide.with(this).load(mAuth.getCurrentUser().getPhotoUrl()).crossFade().into(navDp);
 
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                Intent intent = new Intent(SyllabusActivity.this, ProfileActivity.class);
+                intent.putExtra("uId", mAuth.getCurrentUser().getUid());
+                drawer.closeDrawer(GravityCompat.START);
+                startActivity(intent);
+            }
+        });
+
         btnDownload = (Button) findViewById(R.id.button_download);
 
         btnDownload.setOnClickListener(new View.OnClickListener() {

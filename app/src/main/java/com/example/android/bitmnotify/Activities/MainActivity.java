@@ -105,6 +105,17 @@ public class MainActivity extends AppCompatActivity
             Glide.with(this).load(mAuth.getCurrentUser().getPhotoUrl()).crossFade().into(navDp);
         }
 
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                intent.putExtra("uId", mAuth.getCurrentUser().getUid());
+                drawer.closeDrawer(GravityCompat.START);
+                startActivity(intent);
+            }
+        });
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         DatabaseReference feedRef = mDatabaseRef.child("feeds");
@@ -195,7 +206,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void signOut() {
-        mDatabaseRef.child("users").child(mAuth.getCurrentUser().getUid()).removeValue();
+        //mDatabaseRef.child("users").child(mAuth.getCurrentUser().getUid()).removeValue();
         AuthUI.getInstance().signOut(this);
     }
 
@@ -222,6 +233,12 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.action_app_post:
                 addpost();
+                return true;
+
+            case R.id.action_profile:
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                intent.putExtra("uId", mAuth.getCurrentUser().getUid());
+                startActivity(intent);
                 return true;
 
             default:

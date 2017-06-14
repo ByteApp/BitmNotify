@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.android.bitmnotify.ObjectClasses.User;
 import com.example.android.bitmnotify.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -73,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                             }
                                                             else {
                                                                 FirebaseUser user = mAuth.getCurrentUser();
-                                                                mRef.child(user.getUid()).child("uid").setValue(user.getUid());
+                                                                mRef.child(user.getUid()).child(user.getUid()).setValue(new User(user.getUid(), user.getDisplayName(), user.getPhotoUrl().toString()));
                                                                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

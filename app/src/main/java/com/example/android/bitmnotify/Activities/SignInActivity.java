@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.android.bitmnotify.ObjectClasses.User;
 import com.example.android.bitmnotify.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -151,7 +152,7 @@ public class SignInActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            mRef.child(user.getUid()).child("uid").setValue(user.getUid());
+                            mRef.child(user.getUid()).child(user.getUid()).setValue(new User(user.getUid(), user.getDisplayName(), user.getPhotoUrl().toString()));
                             startActivity(new Intent(SignInActivity.this, MainActivity.class));
                             finish();
                         } else {

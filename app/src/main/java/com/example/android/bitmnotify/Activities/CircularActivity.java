@@ -56,6 +56,17 @@ public class CircularActivity extends AppCompatActivity
         navUsername.setText(mAuth.getCurrentUser().getDisplayName());
         navEmail.setText(mAuth.getCurrentUser().getEmail());
         Glide.with(this).load(mAuth.getCurrentUser().getPhotoUrl()).crossFade().into(navDp);
+
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                Intent intent = new Intent(CircularActivity.this, ProfileActivity.class);
+                intent.putExtra("uId", mAuth.getCurrentUser().getUid());
+                drawer.closeDrawer(GravityCompat.START);
+                startActivity(intent);
+            }
+        });
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

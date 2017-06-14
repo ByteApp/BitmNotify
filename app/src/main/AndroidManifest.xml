@@ -58,7 +58,8 @@
         <activity android:name=".Activities.RegisterActivity" />
         <activity
             android:name=".Activities.FeedDetail"
-            android:theme="@style/FeedDetailActivityTheme"/>
+            android:theme="@style/FeedDetailActivityTheme" />
+        <activity android:name=".Activities.ProfileActivity"></activity>
     </application>
 
 </manifest>
