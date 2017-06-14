@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.android.bitmnotify.Adapters.FeedAdapter;
@@ -159,13 +158,6 @@ public class MainActivity extends AppCompatActivity
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
 
-        rv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Item Clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 
     void scrollToBottom() {
@@ -301,6 +293,13 @@ public class MainActivity extends AppCompatActivity
         b.putString("content", adapter.feedList.get(clikedItemIndex).getContent());
         b.putString("image", adapter.feedList.get(clikedItemIndex).getImageUrl());
         intent.putExtras(b);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onUsernameClicked(int clickedItemIndex) {
+        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+        intent.putExtra("uId", adapter.feedList.get(clickedItemIndex).getUserId());
         startActivity(intent);
     }
 }

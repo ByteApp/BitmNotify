@@ -39,7 +39,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     public interface ListItemClickListener {
 
-        void onListItemClicked(int clikedItemIndex);
+        void onListItemClicked(int clickedItemIndex);
+        void onUsernameClicked(int clickedItemIndex);
 
     }
 
@@ -70,7 +71,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return feedList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
         TextView textViewTitle;
@@ -79,6 +80,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         TextView textViewTime;
         CircleImageView imageViewDp;
         LinearLayout linearLayoutFeed;
+        LinearLayout linearLayoutUsername;
+        LinearLayout linearLayoutDp;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -90,13 +93,29 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             textViewTime = (TextView) itemView.findViewById(R.id.textView_time);
             imageViewDp = (CircleImageView) itemView.findViewById(R.id.imageView_dp);
             linearLayoutFeed = (LinearLayout) itemView.findViewById(R.id.linearLayout_feed);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            int clickedPosition = getAdapterPosition();
-            mListItemClickListener.onListItemClicked(clickedPosition);
+            linearLayoutUsername = (LinearLayout) itemView.findViewById(R.id.linearLayout_username);
+            linearLayoutDp = (LinearLayout) itemView.findViewById(R.id.layout_dp_username);
+            linearLayoutFeed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int clickedPosition = getAdapterPosition();
+                    mListItemClickListener.onListItemClicked(clickedPosition);
+                }
+            });
+            linearLayoutUsername.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int clickedPosition = getAdapterPosition();
+                    mListItemClickListener.onUsernameClicked(clickedPosition);
+                }
+            });
+            linearLayoutDp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int clickedPosition = getAdapterPosition();
+                    mListItemClickListener.onUsernameClicked(clickedPosition);
+                }
+            });
         }
     }
 }

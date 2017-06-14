@@ -1,104 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@android:color/white"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/linearLayout_feed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:background="@android:color/white"
-            android:orientation="horizontal"
             android:id="@+id/layout_dp_username"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageView_dp"
-                android:src="@drawable/ic_person_outline_black_24dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_width="28dp"
-                android:layout_height="28dp" />
+                android:src="@drawable/ic_person_outline_black_24dp" />
 
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/linearLayout_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    tools:text="Meeth161" />
+
+                <TextView
+                    android:id="@+id/textView_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_feed"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/textView_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="2"
                     android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
                     android:paddingTop="8dp"
-                    android:textStyle="normal"
-                    android:id="@+id/textView_username"
-                    tools:text="Meeth161"
-                    android:textSize="18sp"
                     android:textColor="@android:color/black"
-                    android:gravity="center_vertical"
+                    android:textSize="24sp"
+                    tools:text="Heading " />
+
+                <ImageView
+                    android:id="@+id/imageView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="180dp"
+                    android:padding="16dp"
+                    android:scaleType="centerCrop" />
+
 
                 <TextView
-                    android:paddingLeft="16dp"
-                    android:textSize="12sp"
-                    android:id="@+id/textView_time"
+                    android:id="@+id/textView_content"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp"
+                    tools:text="Heading" />
 
             </LinearLayout>
-
-            <TextView
-                android:background="@android:color/white"
-                android:id="@+id/textView_title"
-                android:textColor="@android:color/black"
-                android:fontFamily="sans-serif"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp"
-                android:textSize="24sp"
-                tools:text="Heading " />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:padding="16dp"
-            android:scaleType="centerCrop"/>
-
-
-        <TextView
-            android:background="@android:color/white"
-            android:id="@+id/textView_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="16dp"
-            tools:text="Heading" />
 
         </LinearLayout>
 
