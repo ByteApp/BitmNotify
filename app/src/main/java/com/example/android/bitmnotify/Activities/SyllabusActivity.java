@@ -3,6 +3,8 @@ package com.example.android.bitmnotify.Activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
@@ -12,17 +14,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.android.bitmnotify.Adapters.ExpandableListViewAdapter;
 import com.example.android.bitmnotify.R;
+import com.github.barteksc.pdfviewer.PDFView;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -34,7 +41,7 @@ public class SyllabusActivity extends AppCompatActivity
     CircleImageView navDp;
     FirebaseAuth mAuth;
     StorageReference mStorageReference;
-    WebView webViewSyllabus;
+    PDFView pdfView;
     ExpandableListView expandableListView;
     ExpandableListViewAdapter expandableListViewAdapter;
 
@@ -67,7 +74,7 @@ public class SyllabusActivity extends AppCompatActivity
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListViewAdapter = new ExpandableListViewAdapter(this);
         expandableListView.setAdapter(expandableListViewAdapter);
-        webViewSyllabus = (WebView) findViewById(R.id.webView_syllabus);
+        pdfView = (PDFView) findViewById(R.id.pdfView);
 
         navUsername.setText(mAuth.getCurrentUser().getDisplayName());
         navEmail.setText(mAuth.getCurrentUser().getEmail());
@@ -90,21 +97,34 @@ public class SyllabusActivity extends AppCompatActivity
 
 
                 final ProgressDialog pd = new ProgressDialog(SyllabusActivity.this);
+                pd.setMessage("Loading...");
                 pd.show();
                 StorageReference storageReference = mStorageReference.child("syllabus/MeetThakkar_InternshalaResume.pdf");
 
-                expandableListView.setVisibility(View.GONE);
-                webViewSyllabus.getSettings().setJavaScriptEnabled(true);
+                File rootpath = new File(Environment.getExternalStorageDirectory(), "syllabus");
+                if(!rootpath.exists()) {
+                    rootpath.mkdirs();
+                }
 
-                webViewSyllabus.setWebViewClient(new WebViewClient() {
+                final File localFile = new File(rootpath, "syl.pdf");
+
+                expandableListView.setVisibility(View.GONE);
+                pdfView.setVisibility(View.VISIBLE);
+
+                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
-                    public void onPageFinished(WebView view, String url) {
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         pd.dismiss();
-                        webViewSyllabus.setVisibility(View.VISIBLE);
+                        pdfView.fromFile(localFile).load();
+                        Toast.makeText(SyllabusActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(SyllabusActivity.this, "Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
-                webViewSyllabus.loadUrl("https://google.co.in");
 
                 return false;
             }
@@ -176,7 +196,7 @@ public class SyllabusActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if(expandableListView.getVisibility() == View.GONE) {
-            webViewSyllabus.setVisibility(View.GONE);
+            pdfView.setVisibility(View.GONE);
             expandableListView.setVisibility(View.VISIBLE);
         }
         else {
