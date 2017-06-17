@@ -1,10 +1,8 @@
 package com.example.android.bitmnotify.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
@@ -14,20 +12,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.android.bitmnotify.Adapters.ExpandableListViewAdapter;
 import com.example.android.bitmnotify.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -39,7 +34,9 @@ public class SyllabusActivity extends AppCompatActivity
     CircleImageView navDp;
     FirebaseAuth mAuth;
     StorageReference mStorageReference;
-    Button btnDownload;
+    WebView webViewSyllabus;
+    ExpandableListView expandableListView;
+    ExpandableListViewAdapter expandableListViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +64,11 @@ public class SyllabusActivity extends AppCompatActivity
         navEmail = (TextView) header.findViewById(R.id.nav_email);
         navDp = (CircleImageView) header.findViewById(R.id.nav_dp);
 
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+        expandableListViewAdapter = new ExpandableListViewAdapter(this);
+        expandableListView.setAdapter(expandableListViewAdapter);
+        webViewSyllabus = (WebView) findViewById(R.id.webView_syllabus);
+
         navUsername.setText(mAuth.getCurrentUser().getDisplayName());
         navEmail.setText(mAuth.getCurrentUser().getEmail());
         Glide.with(this).load(mAuth.getCurrentUser().getPhotoUrl()).crossFade().into(navDp);
@@ -82,7 +84,33 @@ public class SyllabusActivity extends AppCompatActivity
             }
         });
 
-        btnDownload = (Button) findViewById(R.id.button_download);
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+
+                final ProgressDialog pd = new ProgressDialog(SyllabusActivity.this);
+                pd.show();
+                StorageReference storageReference = mStorageReference.child("syllabus/MeetThakkar_InternshalaResume.pdf");
+
+                expandableListView.setVisibility(View.GONE);
+                webViewSyllabus.getSettings().setJavaScriptEnabled(true);
+
+                webViewSyllabus.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        pd.dismiss();
+                        webViewSyllabus.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                webViewSyllabus.loadUrl("https://google.co.in");
+
+                return false;
+            }
+        });
+
+        /*btnDownload = (Button) findViewById(R.id.button_download);
 
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +137,7 @@ public class SyllabusActivity extends AppCompatActivity
                     }
                 });
             }
-        });
+        });*/
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -147,7 +175,11 @@ public class SyllabusActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if(expandableListView.getVisibility() == View.GONE) {
+            webViewSyllabus.setVisibility(View.GONE);
+            expandableListView.setVisibility(View.VISIBLE);
+        }
+        else {
             NavUtils.navigateUpFromSameTask(this);
         }
     }

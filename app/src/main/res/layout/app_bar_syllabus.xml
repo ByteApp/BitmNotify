@@ -22,10 +22,21 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <Button
-        android:id="@+id/button_download"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:text="Download Syllabus"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+
+        <ExpandableListView
+            android:id="@+id/expandableListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <WebView
+            android:id="@+id/webView_syllabus"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
 
 </LinearLayout>
