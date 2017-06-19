@@ -13,7 +13,7 @@
 
         <item name="colorPrimary">#009688</item>
         <item name="colorPrimaryDark">#00796b</item>
-        <item name="colorAccent">#ffffff</item>
+        <item name="colorAccent">#009688</item>
 
     </style>
 
